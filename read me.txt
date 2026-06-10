@@ -1,0 +1,71 @@
+Paso 1: Realizar el Inicio de Sesión Inicial (Obligatorio)
+Como Instagram tiene fuertes medidas de seguridad (y posiblemente tengas doble factor de autenticación - 2FA), es necesario iniciar sesión manualmente una primera vez para guardar la sesión en tu equipo de forma segura.
+
+Abre la herramienta PowerShell o Símbolo del sistema (CMD) en Windows.
+Navega al directorio del proyecto ejecutando:
+powershell
+
+
+cd X:\Sistemas\Puppeteer
+Ejecuta el comando de inicio de sesión:
+powershell
+
+
+npm run login
+Se abrirá una ventana del navegador Chrome. Inicia sesión en tu cuenta de Instagram de forma manual en esa ventana.
+Una vez que estés dentro de la página de inicio (el feed de Instagram), el script detectará que la sesión es exitosa, guardará las cookies de inicio de sesión de forma local en la carpeta session y cerrará la ventana automáticamente.
+Paso 2: Configurar tu Cola de Publicaciones
+Para programar lo que quieres publicar:
+
+Guarda las imágenes (en formato JPG o PNG) dentro de la carpeta: X:\Sistemas\Puppeteer\queue\
+Abre el archivo X:\Sistemas\Puppeteer\posts.json con el Bloc de notas o tu editor preferido, y añade la lista de posts en el formato JSON.
+Aquí tienes un ejemplo de cómo debes estructurar el archivo posts.json:
+
+json
+
+
+[
+  {
+    "id": 1,
+    "imagePath": "queue/mi-foto-1.jpg",
+    "caption": "¡Este es el pie de foto de mi primer post automatizado! 🚀 #marketing #bot",
+    "status": "pending",
+    "publishedAt": null
+  },
+  {
+    "id": 2,
+    "imagePath": "queue/mi-foto-2.jpg",
+    "caption": "Aquí va el texto de la segunda publicación del día. 😊",
+    "status": "pending",
+    "publishedAt": null
+  }
+]
+imagePath: Ruta a la imagen (te sugiero guardarlas en la carpeta queue y poner la ruta relativa queue/nombre_imagen.jpg).
+caption: El texto del pie de foto que se escribirá en Instagram.
+status: Debe estar en "pending". Cuando el bot publique la imagen con éxito, cambiará este estado automáticamente a "published" y registrará la fecha en publishedAt. Si falla, lo marcará como "failed" e indicará el error en un campo "error".
+Paso 3: Probar la Publicación
+Una vez que tengas configurado el login y al menos una imagen lista en posts.json con el estado "pending", puedes probar la subida ejecutando en la consola:
+
+powershell
+
+
+npm start
+Verás cómo el navegador se abre, realiza la navegación de forma automatizada, sube la foto, escribe el pie de foto y publica. Tras confirmar la subida, se cerrará solo.
+
+Tip: Cuando compruebes que todo funciona bien, puedes abrir el archivo X:\Sistemas\Puppeteer\.env y cambiar HEADLESS=false por HEADLESS=true. De esta forma, el bot publicará en segundo plano sin abrir visualmente la ventana del navegador.
+
+Paso 4: Programar la Publicación Automática (1 o 2 veces al día)
+Para que el script se ejecute solo sin consumir recursos de tu computadora, configuraremos el Programador de Tareas de Windows:
+
+Abre el menú Inicio de Windows, escribe Programador de tareas y ábrelo.
+En la barra lateral derecha, haz clic en Crear tarea básica....
+Ponle un nombre (por ejemplo: Instagram Publicador Mañana) y haz clic en Siguiente.
+Elige la frecuencia: Diariamente y haz clic en Siguiente.
+Ajusta la hora a la que quieres que se publique (por ejemplo: 10:00:00 AM) y haz clic en Siguiente.
+En acción, selecciona Iniciar un programa y haz clic en Siguiente.
+Rellena los campos con la siguiente configuración:
+Programa o script: escribe node (si Node está en tu variable de entorno PATH, si no, pon la ruta completa como C:\Program Files\nodejs\node.exe).
+Agregar argumentos (opcional): escribe src/index.js
+Iniciar en (opcional): escribe X:\Sistemas\Puppeteer (esto es muy importante para que el script localice los archivos correctos).
+Haz clic en Siguiente y luego en Finalizar.
+Si quieres publicar una segunda vez al día, repite estos pasos para crear otra tarea básica con una hora de la tarde (por ejemplo: 06:00:00 PM) apuntando al mismo script.
