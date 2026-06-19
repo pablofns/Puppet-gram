@@ -1,1 +1,16 @@
-[]
+[
+    {
+        "id": 1,
+        "imagePath": "queue/mi-foto-1.jpg",
+        "caption": "¡Este es el pie de foto de mi primer post automatizado! 🚀 #marketing #bot",
+        "status": "pending",
+        "publishedAt": null
+    },
+    {
+        "id": 2,
+        "imagePath": "queue/mi-foto-2.jpg",
+        "caption": "Aquí va el texto de la segunda publicación. 😊 #instagram",
+        "status": "pending",
+        "publishedAt": null
+    }
+]
