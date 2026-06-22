@@ -191,19 +191,57 @@ export async function publishPost(page, imagePath, caption) {
     page,
     [
       'svg[aria-label="Nueva publicación"]',
+      'svg[aria-label="New post"]',
       'svg[aria-label="Crear"]',
+      'svg[aria-label="Create"]',
       'svg[aria-label="Direct, explore, creator and profile navigation. Creating a new post."] ',
       '[role="button"] a[href^="/create/"]',
     ],
     [
       '//span[text()="Crear"]',
+      '//span[text()="Create"]',
+      '//div[text()="Crear"]',
+      '//div[text()="Create"]',
       '//a[contains(@href, "create")]',
-      '//div[@role="button" and contains(., "Crear")]'
+      '//div[@role="button" and contains(., "Crear")]',
+      '//div[@role="button" and contains(., "Create")]'
     ]
   );
   
-  await createBtn.click();
-  console.log('[Publisher] Botón "Crear" clickeado. Esperando que se abra el modal...');
+  // Hacer clic de forma robusta en el contenedor interactivo (A, BUTTON o rol botón) si se detectó el SVG directamente
+  await page.evaluate(el => {
+    const interactive = el.closest('a, button, [role="button"]');
+    if (interactive) {
+      interactive.click();
+    } else {
+      el.click();
+    }
+  }, createBtn);
+  console.log('[Publisher] Botón "Crear" clickeado de forma robusta. Esperando submenú desplegable...');
+  await randomDelay(1500, 2500);
+
+  // Seleccionar la opción de "Post" o "Publicación" del submenú
+  console.log('[Publisher] Buscando la opción "Publicación" / "Post" en el submenú...');
+  const postOption = await waitForElement(
+    page,
+    [],
+    [
+      '//span[text()="Post"]',
+      '//span[text()="Publicación"]',
+      '//div[text()="Post"]',
+      '//div[text()="Publicación"]',
+      '//*[text()="Post"]',
+      '//*[text()="Publicación"]'
+    ],
+    8000
+  );
+
+  await page.evaluate(el => {
+    const interactive = el.closest('a, button, [role="button"]') || el;
+    interactive.click();
+  }, postOption);
+
+  console.log('[Publisher] Opción "Publicación" seleccionada. Esperando modal con selector de archivos...');
   await randomDelay(2000, 3000);
 
   // 2. Subir el archivo de la imagen
@@ -221,8 +259,11 @@ export async function publishPost(page, imagePath, caption) {
     [],
     [
       '//div[@role="button" and text()="Siguiente"]',
+      '//div[@role="button" and text()="Next"]',
       '//button[text()="Siguiente"]',
-      '//div[contains(text(), "Siguiente")]'
+      '//button[text()="Next"]',
+      '//div[contains(text(), "Siguiente")]',
+      '//div[contains(text(), "Next")]'
     ]
   );
   await nextBtn.click();
@@ -236,8 +277,11 @@ export async function publishPost(page, imagePath, caption) {
     [],
     [
       '//div[@role="button" and text()="Siguiente"]',
+      '//div[@role="button" and text()="Next"]',
       '//button[text()="Siguiente"]',
-      '//div[contains(text(), "Siguiente")]'
+      '//button[text()="Next"]',
+      '//div[contains(text(), "Siguiente")]',
+      '//div[contains(text(), "Next")]'
     ]
   );
   await nextBtn.click();
@@ -250,6 +294,7 @@ export async function publishPost(page, imagePath, caption) {
     page,
     [
       'div[aria-label="Escribe un pie de foto..."]',
+      'div[aria-label="Write a caption..."]',
       'div[contenteditable="true"]',
       'textarea'
     ]
@@ -268,8 +313,11 @@ export async function publishPost(page, imagePath, caption) {
     [],
     [
       '//div[@role="button" and text()="Compartir"]',
+      '//div[@role="button" and text()="Share"]',
       '//button[text()="Compartir"]',
-      '//div[contains(text(), "Compartir")]'
+      '//button[text()="Share"]',
+      '//div[contains(text(), "Compartir")]',
+      '//div[contains(text(), "Share")]'
     ]
   );
   
@@ -287,7 +335,10 @@ export async function publishPost(page, imagePath, caption) {
       '//*[contains(text(), "compartido tu publicación")]',
       '//*[contains(text(), "Se ha compartido")]',
       '//*[contains(text(), "publicación se ha compartido")]',
-      '//h2[text()="Se ha compartido tu publicación"]'
+      '//h2[text()="Se ha compartido tu publicación"]',
+      '//*[contains(text(), "shared your post")]',
+      '//*[contains(text(), "Your post has been shared")]',
+      '//*[contains(text(), "has been shared")]'
     ],
     45000 // 45 segundos de timeout para subidas lentas
   );

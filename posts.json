@@ -1,16 +1,23 @@
 [
-    {
-        "id": 1,
-        "imagePath": "queue/mi-foto-1.jpg",
-        "caption": "¡Este es el pie de foto de mi primer post automatizado! 🚀 #marketing #bot",
-        "status": "pending",
-        "publishedAt": null
-    },
-    {
-        "id": 2,
-        "imagePath": "queue/mi-foto-2.jpg",
-        "caption": "Aquí va el texto de la segunda publicación. 😊 #instagram",
-        "status": "pending",
-        "publishedAt": null
-    }
+  {
+    "id": 1,
+    "imagePath": "queue/bandas_isometricas.png",
+    "caption": "¡Tenemos stock en bandas isométricas (pack x3)! Ideales para rutinas de calentamiento, estiramiento y movilidad en cualquier lugar.💪\nAprovechá el envío gratuito, y solicitalas mediante WhatsApp 📲\n\n🔥dale click al link de la bio para realizar tu compra🔥",
+    "status": "published",
+    "publishedAt": "2026-06-19T12:45:59.544Z"
+  },
+  {
+    "id": 2,
+    "imagePath": "queue/medias_antideslizantes.png",
+    "caption": "Medias antideslizantes en varios colores. Ideales para entrenamientos de alta intensidad 💪 \n\n\nAprovechá el envío gratuito, y solicitalas mediante WhatsApp 📲\n🔥dale click al link de la bio para realizar tu compra🔥",
+    "status": "pending",
+    "publishedAt": null
+  },
+  {
+    "id": 3,
+    "imagePath": "queue/pelota_25.png",
+    "caption": "Pelota de 25cm, ideal para tu clases de pilates, colores variados (limitados a disponibilidad)💪 \n\n\nAprovechá el envío gratuito, y solicitalas mediante WhatsApp 📲\n🔥dale click al link de la bio para realizar tu compra🔥",
+    "status": "pending",
+    "publishedAt": null
+  }
 ]

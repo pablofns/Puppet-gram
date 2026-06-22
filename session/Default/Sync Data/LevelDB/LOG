@@ -1,2 +1,3 @@
-2026/05/29-11:13:53.152 2934 Creating DB X:\Sistemas\Puppeteer\session\Default\Sync Data\LevelDB since it was missing.
-2026/05/29-11:13:53.159 2934 Reusing MANIFEST X:\Sistemas\Puppeteer\session\Default\Sync Data\LevelDB/MANIFEST-000001
+2026/06/19-10:46:52.472 4abc Reusing MANIFEST X:\Sistemas\Puppeteer\session\Default\Sync Data\LevelDB/MANIFEST-000001
+2026/06/19-10:46:52.482 4abc Recovering log #3
+2026/06/19-10:46:52.482 4abc Reusing old log X:\Sistemas\Puppeteer\session\Default\Sync Data\LevelDB/000003.log 

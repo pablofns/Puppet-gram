@@ -6,7 +6,8 @@
   "type": "module",
   "scripts": {
     "start": "node src/index.js",
-    "login": "node src/login.js"
+    "login": "node src/login.js",
+    "story": "node src/storyIndex.js"
   },
   "dependencies": {
     "dotenv": "^16.4.5",

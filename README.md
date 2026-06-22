@@ -5,6 +5,7 @@ Este sistema es un bot automatizado desarrollado en **Node.js** y **Puppeteer** 
 ---
 
 ## 📋 Tabla de Contenidos
+
 1. [Características Principales](#-características-principales)
 2. [Estructura del Proyecto](#-estructura-del-proyecto)
 3. [Flujo de Funcionamiento](#-flujo-de-funcionamiento)
@@ -78,10 +79,12 @@ flowchart TD
 ## 🛠️ Instalación y Configuración
 
 ### Prerrequisitos
+
 - Tener instalado **Node.js** (versión 16 o superior recomendada).
 - Una cuenta de Instagram activa.
 
 ### Configuración del archivo `.env`
+
 Crea o edita el archivo `.env` en la raíz del proyecto con los siguientes parámetros:
 
 ```env
@@ -102,19 +105,23 @@ INSTAGRAM_PASSWORD=tu_contraseña_de_instagram
 ## 📖 Guía de Uso Paso a Paso
 
 ### Paso 1: Inicio de Sesión Inicial (Obligatorio)
+
 Debido a las medidas de seguridad de Instagram, se requiere realizar un inicio de sesión inicial para guardar la sesión en el equipo.
 
 1. Abre tu terminal (PowerShell o CMD) y ve al directorio del proyecto.
 2. Ejecuta el inicializador de sesión:
+
    ```bash
    npm run login
    ```
+
 3. Se abrirá una ventana del navegador de Chrome. **Inicia sesión manualmente** en Instagram. Si tienes autenticación de dos factores (2FA), introduce el código correspondiente.
 4. Una vez cargado el feed principal de Instagram, el script detectará la sesión, guardará las cookies en la carpeta `/session` y cerrará la ventana de forma automática.
 
 ---
 
 ### Paso 2: Configurar tu Cola de Publicaciones
+
 1. Guarda las imágenes que deseas publicar en la carpeta `queue/`.
 2. Abre o crea el archivo `posts.json` en la raíz del proyecto y estructura tus publicaciones de la siguiente manera:
 
@@ -122,8 +129,8 @@ Debido a las medidas de seguridad de Instagram, se requiere realizar un inicio d
 [
   {
     "id": 1,
-    "imagePath": "queue/mi-foto-1.jpg",
-    "caption": "¡Este es el pie de foto de mi primer post automatizado! 🚀 #marketing #bot",
+    "imagePath": "queue/bandas_isometricas.png",
+    "caption": "¡Tenemos stock en bandas isométricas (pack x3)! Ideales para rutinas de calentamiento, estiramiento y movilidad en cualquier lugar.💪\nAprovechá el envío gratuito, y solicitalas mediante WhatsApp 📲\n\n🔥dale click al link de la bio para realizar tu compra🔥",
     "status": "pending",
     "publishedAt": null
   },
@@ -138,12 +145,14 @@ Debido a las medidas de seguridad de Instagram, se requiere realizar un inicio d
 ```
 
 *Campos clave:*
+
 - `imagePath`: Ruta relativa o absoluta de la imagen.
 - `status`: Debe ser `"pending"` para que el bot la procese. Cambiará automáticamente a `"published"` o `"failed"` tras el intento.
 
 ---
 
 ### Paso 3: Probar la Publicación
+
 Para probar la subida de la primera imagen pendiente:
 
 ```bash
@@ -177,12 +186,53 @@ Para programar publicaciones automáticas sin necesidad de ejecutar comandos man
 ## 🛠️ Solución de Problemas
 
 ### 1. El bot no avanza del Login
+
 - Asegúrate de que las credenciales en el archivo `.env` son correctas o realiza el proceso `npm run login` de nuevo para regenerar las cookies.
 - Si Instagram te pide una verificación de seguridad adicional, ejecuta `npm run login` para resolverla de forma manual.
 
 ### 2. No se encuentra el botón "Siguiente" o "Crear"
+
 - Instagram actualiza periódicamente la estructura de su sitio web. Los selectores CSS y XPath están definidos en [publisher.js](file:///x:/Sistemas/Puppeteer/src/publisher.js). Si fallan, es probable que se necesite inspeccionar el sitio web de Instagram y actualizar la lista de selectores en la función `publishPost`.
 
 ### 3. Las imágenes no se suben
+
 - Verifica que el formato sea `.jpg` o `.png` y que la ruta especificada en `posts.json` sea la correcta.
 - Recuerda que la ruta se evalúa de manera relativa a la raíz del proyecto.
+## 📸 Publicación de Historias (Stories)
+
+A partir de la versión 1.1 se añadió soporte para publicar **Historias** de Instagram mediante un flujo independiente que emula un dispositivo móvil.
+
+### Nuevo comando
+```bash
+npm run story
+```
+Ejecuta este script para procesar la cola de historias definida en `stories.json`.
+
+### Estructura de `stories.json`
+```json
+[
+  {
+    "id": 1,
+    "imagePath": "queue/stories/mi-historia-1.jpg",
+    "status": "pending",
+    "publishedAt": null
+  }
+]
+```
+- `imagePath` debe apuntar a una imagen dentro de la carpeta `queue/stories/`.
+- `status` **pending** indica que la historia está lista para publicarse.
+- Al completarse, el script actualizará `status` a `published` y registrará la fecha en `publishedAt`.
+
+### Flujo de publicación de historias
+1. **Inicia sesión** (se reutiliza la sesión guardada en `./session`).
+2. **Emulación móvil**: el script configura Puppeteer para imitar un iPhone 12.
+3. **Clic en “Crear historia”** y carga la imagen.
+4. **Compartir** la historia.
+5. **Actualiza** `stories.json` con el estado.
+
+### Solución de problemas
+- **Historia no se publica**: verifica que estés usando la versión móvil de Instagram (el bot debe lanzar Chrome con emulación). Revisa la consola para posibles errores de selector.
+- **Imagen no encontrada**: confirma que la ruta en `stories.json` sea correcta y que el archivo exista en `queue/stories/`.
+- **Login fallido**: asegúrate de haber ejecutado `npm run login` al menos una vez con `HEADLESS=false`.
+
+Con estos pasos puedes automatizar tanto publicaciones del feed como historias de manera independiente.
