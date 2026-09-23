@@ -1,6 +1,0 @@
-2026/05/29-11:18:13.416 51f0 Creating DB X:\Sistemas\Puppeteer\session\Default\IndexedDB\https_www.instagram.com_0.indexeddb.leveldb since it was missing.
-2026/05/29-11:18:13.438 51f0 Reusing MANIFEST X:\Sistemas\Puppeteer\session\Default\IndexedDB\https_www.instagram.com_0.indexeddb.leveldb/MANIFEST-000001
-2026/05/29-11:18:15.419 2c14 Level-0 table #5: started
-2026/05/29-11:18:15.421 2c14 Level-0 table #5: 16691 bytes OK
-2026/05/29-11:18:15.423 2c14 Delete type=0 #3
-2026/05/29-11:18:15.424 4e1c Manual compaction at level-0 from '\x00\x08\x00\x00\x00' @ 72057594037927935 : 1 .. '\x00\x09\x00\x00\x00' @ 0 : 0; will stop at (end)

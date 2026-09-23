@@ -1,10 +1,1 @@
-[
-  {
-    "id": 1,
-    "imagePath": "queue/stories/publi_ service.png",
-    "status": "failed",
-    "publishedAt": null,
-    "error": "Elemento no encontrado: //button[contains(text(),'Compartir') or contains(text(),'Add to your story') or contains(text(),'Publicar')], //div[@role='button' and (text()='Compartir' or text()='Add to your story' or text()='Publicar')]",
-    "failedAt": "2026-06-19T13:47:37.439Z"
-  }
-]
+[]
